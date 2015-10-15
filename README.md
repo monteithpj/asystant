@@ -4,6 +4,8 @@ A simple, flexible helper for building modular systems with clojure/core.async
 
 ## Usage
 
+[![Clojars Project](http://clojars.org/asystant/latest-version.svg)](http://clojars.org/asystant)
+
 Declare modules of the form {:ins #{topics} :outs #{topics} :pipe pipe-fn-creator*}
 
 Connect together your system design (asystant.core/add-modules asystant.core/new-system modules)
