@@ -1,6 +1,6 @@
 (defproject asystant "0.1.0"
   :description "A simple, flexible helper for building modular systems with clojure/core.async"
-  :url "http://example.com/FIXME"
+  :url "https://github.com/monteithpj/asystant"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
