@@ -13,4 +13,6 @@
   {:test
    {:dependencies [[org.clojure/test.check "0.8.2"]
                    [com.gfredericks/test.chuck "0.2.0"]
-                   [com.velisco/herbert "0.7.0-alpha1"]]}})
+                   [com.velisco/herbert "0.7.0-alpha1"]]}}
+  :plugins [[codox "0.8.15"]]
+  :codox {:src-dir-uri "https://github.com/monteithpj/asystant/blob/master"})
