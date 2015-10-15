@@ -1,11 +1,6 @@
 (ns asystant.build
-  (:require [clojure.core.async :as async]))
-
-(defn make-buffer [buffer-maker]
-  (if (or (nil? buffer-maker)
-          (number? buffer-maker))
-    buffer-maker
-    (buffer-maker)))
+  (:require [clojure.core.async :as async]
+            [asystant.buffers :refer [create-buffer]]))
 
 (defn out-chan
   "Create a channel that will emit the correct topics to all channels that come from the given module"
@@ -28,12 +23,12 @@
                            (map :chan))
                   edge-chans)]
     (if-let [transform (-> module :transforms :all)]
-      (async/pipe (async/merge ins) (async/chan (make-buffer (-> module :buffers :all))
+      (async/pipe (async/merge ins) (async/chan (-> module :buffers :all create-buffer)
                                                 transform))
-      (async/merge ins (make-buffer (-> module :buffers :all))))))
+      (async/merge ins (-> module :buffers :all create-buffer)))))
 
 (defn edge->buffer [edge]
-  (make-buffer (-> edge :to :buffers (get (:type edge)))))
+  (-> edge :to :buffers (get (:type edge)) create-buffer))
 
 (defn edge->transform [edge]
   (-> edge :to :transforms (get (:type edge))))
