@@ -13,6 +13,10 @@
 
 (defmethod create-buffer :fixed [size] size)
 
-(defmethod create-buffer :keep-last [[_ size]] (async/sliding-buffer size))
+(defmethod create-buffer :keep-last [_] (async/sliding-buffer 1))
 
-(defmethod create-buffer :drop-after [[_ size]] (async/dropping-buffer size))
+(defmethod create-buffer :keep-first [_] (async/dropping-buffer 1))
+
+(defmethod create-buffer :sliding-buffer [[_ size]] (async/sliding-buffer size))
+
+(defmethod create-buffer :dropping-buffer [[_ size]] (async/dropping-buffer size))
