@@ -5,20 +5,14 @@
             [clojure.core.async :as async]
             [clojure.test.check.clojure-test :refer [defspec]]
             [clojure.test.check.generators :as gen]
-            [clojure.test.check.properties :as prop]
             [com.gfredericks.test.chuck.generators :as cgen]
             [com.gfredericks.test.chuck.properties :as cprop]
-            [asystant.test.util.generators :as ugen]))
-
-(defn dummy-event
-  [topic]
-  {:type topic})
-
-(def topics [:a :b :c :d :e])
+            [asystant.test.util.generators :as ugen]
+            [asystant.test.util.events :as events]))
 
 (def gen-source
-  (cgen/for [outs (gen/not-empty (ugen/set topics))
-             output (gen/not-empty (gen/vector (gen/fmap dummy-event (gen/elements outs))))]
+  (cgen/for [outs events/gen-topics
+             output (events/topics->gen-events outs)]
     {:ins #{}
      :outs outs
      :pipe (fn [_] (fn [_ out-ch] (async/onto-chan out-ch output)))
@@ -35,7 +29,7 @@
      ::type ::sink}))
 
 (def gen-sink
-  (gen/fmap sink-module (gen/not-empty (ugen/set topics))))
+  (gen/fmap sink-module events/gen-topics))
 
 (defn make-sink-chans [modules]
   (reduce (fn [sink-chans module]
@@ -59,7 +53,7 @@
                         output      (into [] (mapcat :output) modules)
                         output-freq (frequencies (map :type output))
                         sinks       (make-sink-chans modules)
-                        shutdown    (build2! system {:sinks sinks})
+                        shutdown    (build! system {:sinks sinks})
                         extracted   (keep (extract-input sinks) modules)]]
                  (every? (fn [{:keys [ins input]}]
                            (= (select-keys output-freq ins) (frequencies (map :type input))))

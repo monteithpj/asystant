@@ -19,10 +19,11 @@
     (async/go-loop []
       (when-some [v (async/<! in-ch)]
         (f v)
-        (recur)))))
+        (recur)))
+    (fn [] nil)))
 
 (defn source
-  "Create a pipe-function from a function that takes a function that takes an item 
+  "Create a pipe-function from a function that takes a function that takes an item
    and has no meaningful return value"
   [f]
   (fn [_ out-ch]
@@ -45,11 +46,5 @@
 (defn transform
   "Create a pipe-function that applies an x-form to items"
   [xf]
-  (fn [in-ch out-ch] (async/pipe (async/pipe in-ch (async/chan 1 xf)) out-ch)))
-
-(comment (defn logged-pipe
-           "Transform a pipe-function to add logging with the given tag"
-           [tag]
-           (fn [f] (fn [in-chan out-chan]
-                     (f (as-util/logged-chan in-chan (str tag "-IN"))
-                        (as-util/logged-chan out-chan (str tag "-OUT")))))))
+  (fn [in-ch out-ch] (async/pipe (async/pipe in-ch (async/chan 1 xf)) out-ch)
+    (fn [] nil)))
