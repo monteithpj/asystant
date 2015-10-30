@@ -32,12 +32,13 @@
 
 (defspec sink-test
   (prop/for-all [messages events/gen-events]
-                (let [output (atom [])
+                (let [output  (atom [])
                       sink-fn (fn [m] (swap! output conj m))
                       in-ch   (async/chan)
                       sdc     ((sink sink-fn) in-ch nil)]
                   (async/<!! (async/onto-chan in-ch messages))
                   (sdc)
+                  (Thread/sleep 1)
                   (is (= messages @output)))))
 
 (defspec transform-test
