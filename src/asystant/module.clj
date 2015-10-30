@@ -53,13 +53,13 @@
    Optionally takes a map of extra params which will be included on the resulting module
 
    You can include a :subsystem-init function in extras which takes the outer-system's
-   initialisation params and returns a map: {:params params-updater 
+   initialisation params and returns a map: {:params params-updater
                                              :callback shutdown-callback}
 
    params-updater: A function that takes the initialisation params and returns
    a modified version of them that will be provided to all sub-modules
 
-   shutdown-callback: A 0-arg function that will be called when the system is shutting 
+   shutdown-callback: A 0-arg function that will be called when the system is shutting
    down. This will be combined with any shutdown callbacks from sub-modules and returned
    from the module's pipe-function"
   ([modules]

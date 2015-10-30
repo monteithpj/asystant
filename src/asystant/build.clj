@@ -51,9 +51,9 @@
                        (out-chan edge-chans module))))))
 
 (defn build!
-  "Take a graph system with the structure {:nodes #{{:pipe pipe-fn}...} 
+  "Take a graph system with the structure {:nodes #{{:pipe pipe-fn}...}
                                            :edges #{{:from from-node :to to-node}...}}
-   where the pipe-fn is a function (fn [initialisation-params] 
+   where the pipe-fn is a function (fn [initialisation-params]
                                      (fn [in-ch out-ch] shutdown-callback))
    Return a function that will invoke all of the shutdown-callbacks returned from the modules'
    pipe-fns"
