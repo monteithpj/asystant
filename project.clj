@@ -13,7 +13,8 @@
    {:dependencies [[org.clojure/test.check "0.8.2"]
                    [com.gfredericks/test.chuck "0.2.0"]
                    [com.velisco/herbert "0.7.0-alpha1"]
-                   [aysylu/loom "0.5.4"]]}}
+                   [aysylu/loom "0.5.4"]]}
+   :deploy
+   {:codox {:output-path "doc"}}}
   :plugins [[lein-codox "0.9.0"]]
-  :codox {:source-uri "https://github.com/monteithpj/asystant/blob/master/{filepath}#L{line}"
-          :output-path "out"})
+  :codox {:source-uri "https://github.com/monteithpj/asystant/blob/master/{filepath}#L{line}"})
