@@ -1,4 +1,4 @@
-(defproject asystant "0.1.1"
+(defproject asystant "0.1.2-SNAPSHOT"
   :description "A simple, flexible helper for building modular systems with clojure/core.async"
   :url "https://github.com/monteithpj/asystant"
   :license {:name "Eclipse Public License"
