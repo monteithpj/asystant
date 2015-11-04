@@ -14,5 +14,6 @@
                    [com.gfredericks/test.chuck "0.2.0"]
                    [com.velisco/herbert "0.7.0-alpha1"]
                    [aysylu/loom "0.5.4"]]}}
-  :plugins [[codox "0.8.15"]]
-  :codox {:src-dir-uri "https://github.com/monteithpj/asystant/blob/master"})
+  :plugins [[lein-codox "0.9.0"]]
+  :codox {:source-uri "https://github.com/monteithpj/asystant/blob/master/{filepath}#L{line}"
+          :output-path "out"})
