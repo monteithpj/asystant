@@ -1,5 +1,5 @@
 language: clojure
-after_deploy: bash ./deploy_dox.sh
+after_script: bash ./deploy_dox.sh
 env:
   global:
   - GH_REF: github.com/monteithpj/asystant.git
