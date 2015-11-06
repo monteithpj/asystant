@@ -23,9 +23,9 @@ Build your system:
 
 The pipe function creator takes a map of initialisation parameters and returns a pipe function.
 ```clojure
-(defn my-pipe-fn-creator [{:keys [foo]}]
+(defn my-pipe-fn-creator [{:keys [bar]}]
   (fn [in-ch out-ch]
-    ...))
+    (foo bar in-ch out-ch)))
 ```
 
 A pipe function is a function that takes an input channel and an output channel. This will be called on each module when you call build! and should be used to connect your functionality to the rest of the system.
