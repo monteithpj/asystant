@@ -1,5 +1,6 @@
 (ns asystant.build
-  (:require [clojure.core.async :as async]
+  (:require #?(:clj  [clojure.core.async :as async]
+               :cljs [cljs.core.async :as async])
             [asystant.buffers :refer [create-buffer]]))
 
 (defn out-chan

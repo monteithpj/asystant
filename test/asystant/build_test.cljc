@@ -1,14 +1,17 @@
 (ns asystant.build-test
   (:require [asystant.build :refer :all]
             [asystant.core :refer :all]
-            [clojure.test :refer :all]
-            [clojure.core.async :as async]
-            [clojure.test.check.clojure-test :refer [defspec]]
+            [asystant.test.util.generators :as ugen]
+            [asystant.test.util.events :as events]
             [clojure.test.check.generators :as gen]
             [com.gfredericks.test.chuck.generators :as cgen]
             [com.gfredericks.test.chuck.properties :as cprop]
-            [asystant.test.util.generators :as ugen]
-            [asystant.test.util.events :as events]))
+            #?@(:clj  [[clojure.test :refer :all]
+                      [clojure.core.async :as async]
+                      [clojure.test.check.clojure-test :refer [defspec]]]
+               :cljs [[cljs.test :refer :all]
+                      [cljs.core.async :as async]
+                      [cljs.test.check.clojure-test :refer-macros [defspec]]])))
 
 (def gen-source
   (cgen/for [outs events/gen-topics

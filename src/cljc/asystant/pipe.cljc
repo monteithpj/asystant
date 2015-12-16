@@ -10,13 +10,15 @@
   The purpose is to provide a flexible way of defining how to connect modules and
   these helpers allow you to perform simple connections without needing to worry about
   the details of core.async"
-  (:require [clojure.core.async :as async]))
+  (:require #?(:clj  [clojure.core.async :as async :refer [go-loop]]
+               :cljs [cljs.core.async :as async]))
+  #?(:cljs (:require-macros [cljs.core.async.macros :refer [go-loop]])))
 
 (defn sink
   "Create a pipe-function from a function that takes items and has no meaningful return value"
   [f]
   (fn [in-ch _]
-    (async/go-loop []
+    (go-loop []
       (when-some [v (async/<! in-ch)]
         (f v)
         (recur)))

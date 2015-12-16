@@ -1,6 +1,7 @@
 (ns asystant.core
   (:require [clojure.set :refer [intersection]]
-            [clojure.core.match :as match]))
+            #?(:clj  [clojure.core.match :refer [match]]
+               :cljs [cljs.core.match :refer-macros [match]])))
 
 (def new-system
   "A system with no modules"
@@ -11,14 +12,14 @@
    are members of the outs of the from-module and the ins of the to-module.
    If the from-module emits :any and the to-module accepts :any, return #{:any}"
   [{:keys [ins]} {:keys [outs]}]
-  (match/match [ins outs]
-               [:any :any] #{:any}
-               [:any  _  ] outs
-               [ _   :any] ins
-               :else (intersection ins outs)))
+  (match [ins outs]
+         [:any :any] #{:any}
+         [:any  _  ] outs
+         [ _   :any] ins
+         :else (intersection ins outs)))
 
 (defn from-edges
-  "Returns an x-form that will transform another module into 
+  "Returns an x-form that will transform another module into
    the edges that go from the given module to the other module"
   [module]
   (mapcat (fn [other-mod] (map (fn [type] {:from module :to other-mod :type type})
