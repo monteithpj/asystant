@@ -8,6 +8,13 @@
                   (update node :pipe (fn [pipe-init]
                                        (comp (pu/logged-pipe (:name node)) pipe-init)))))))
 
+(defn remove-thru-edge
+  [graph]
+  (update graph :edges
+          (partial into #{} (remove
+                             (fn [e] (and (-> e :from :in-pipe)
+                                          (-> e :to :out-pipe)))))))
+
 (defn system->module
   ([ins outs sys initialisation-params-updater]
    (system->module ins outs sys initialisation-params-updater {}))
@@ -18,20 +25,23 @@
                   (fn [in-ch out-ch]
                     (let [updated-params
                           (initialisation-params-updater initialisation-params)
-                          subsystem-shutdown-callback
-                          (build/build! (asys/add-modules sys
-                                             [{:ins #{}
-                                               :outs ins
-                                               :pipe (constantly (pipe/source-ch in-ch))
-                                               :name (str (:name extras) "-in-pipe")}
-                                              {:ins outs
-                                               :outs #{}
-                                               :pipe (constantly (pipe/sink-ch out-ch))
-                                               :name (str (:name extras) "-out-pipe")}])
-                                     (:params updated-params))]
+                          in-pipe {:ins #{}
+                                   :outs ins
+                                   :pipe (constantly (pipe/source-ch in-ch))
+                                   :name (str (:name extras) "-in-pipe")
+                                   :in-pipe true}
+                          out-pipe {:ins outs
+                                    :outs #{}
+                                    :pipe (constantly (pipe/sink-ch out-ch))
+                                    :name (str (:name extras) "-out-pipe")
+                                    :out-pipe true}
+                          graph (remove-thru-edge
+                                 (asys/add-modules sys [in-pipe out-pipe]))
+                          shutdown (build/build! graph
+                                                 (:params updated-params))]
                       (fn []
                         (or (:callback updated-params) identity)
-                        (subsystem-shutdown-callback)))))
+                        (shutdown)))))
           :subsystem sys}
          extras)))
 
