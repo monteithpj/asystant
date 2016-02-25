@@ -10,6 +10,14 @@
 
   :source-paths ["src/cljc"]
 
+  :release-tasks    [["vcs" "assert-committed"]
+                     ["change" "version" "leiningen.release/bump-version" "release"]
+                     ["vcs" "commit"]
+                     ["vcs" "tag"]
+                     ["change" "version" "leiningen.release/bump-version"]
+                     ["vcs" "commit"]
+                     ["vcs" "push"]]
+
   :aliases
   {"repl" ["with-profile" "+test" "repl"]}
   :profiles
