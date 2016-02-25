@@ -2,5 +2,5 @@
   (:require [asystant.module :refer :all]
             [clojure.test :refer :all]))
 
-(deftest no-thru-edge-empty
-  (empty? (:edges (subsystem []))))
+(deftest no-thru-edge-any-any
+  (empty? (:edges (subsystem [{:ins :any} {:outs :any}]))))
