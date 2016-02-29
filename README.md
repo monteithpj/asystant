@@ -2,6 +2,15 @@
 
 A simple, flexible helper for building modular systems with clojure/core.async
 
+asystant aims to maximise decoupling of modules through an event-based architecture, using data dependencies rather than component dependencies to assemble the system. In addition, using core.async and a single, unifying interface decouples the overall system architecture from the execution model of individual modules.
+
+You can also watch a [talk](https://skillsmatter.com/skillscasts/7257-building-modular-systems-with-asystant) given at [Clojure eXchange 2015](https://skillsmatter.com/conferences/6861-clojure-exchange-2015) which explains in more detail some motivation and how asystant works
+
+###0.1.2 Changelog
+
+* ClojureScript support
+* Minor improvements to subsystem assembly
+
 ## Usage
 
 [![Clojars Project](http://clojars.org/asystant/latest-version.svg)](http://clojars.org/asystant)
